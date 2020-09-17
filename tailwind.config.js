@@ -4,11 +4,11 @@ module.exports = {
     // purgeLayersByDefault: true,
   },
   purge: {
-    enabled: true,
-    content: [
-      './index.html',
-      './src/**/*.vue',
-    ],
+    // enabled: true,
+    // content: [
+    //   './index.html',
+    //   './src/**/*.vue',
+    // ],
   },
   theme: {
     extend: {},
