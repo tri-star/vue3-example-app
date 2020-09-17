@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  app:
+    image: "node:14.9.0-buster"
+    command: yarn dev
+    working_dir: /data
+    volumes:
+      - ".:/data"
+    ports: 
+      - 8080:8080
+      - 8081:8081
+
