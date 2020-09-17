@@ -6,7 +6,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = (env = {}) => ({
   mode: env.prod ? 'production' : 'development',
   devtool: env.prod ? 'source-map' : 'eval-cheap-module-source-map',
-  entry: path.resolve(__dirname, './src/main.ts'),
+  entry: {
+    main: path.resolve(__dirname, './src/main.ts'),
+    main_css: path.resolve(__dirname, './css/main.css'),
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/'
@@ -45,7 +48,19 @@ module.exports = (env = {}) => ({
             loader: MiniCssExtractPlugin.loader,
             options: { hmr: !env.prod }
           },
-          'css-loader'
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                ident: 'postcss',
+                plugins: [
+                  require('tailwindcss'),
+                  require('autoprefixer'),
+                ],
+              }
+            },
+          },
         ]
       }
     ]

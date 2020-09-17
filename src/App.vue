@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <router-link :to="{ path: '/' }">Home</router-link>
+  <DefaultLayout>
     <router-view/>
-  </div>
+  </DefaultLayout>
 </template>
 
 <script lang="ts">
 import {ref, defineComponent} from 'vue'
+import DefaultLayout from '@/layout/DefaultLayout.vue'
+
 export default defineComponent({
+  components: {
+    DefaultLayout
+  },
   setup() {
     const count = ref(0)
     const inc = () => {

@@ -5,6 +5,8 @@
     "build": "webpack --env.prod"
   },
   "dependencies": {
+    "postcss-loader": "^4.0.2",
+    "tailwindcss": "^1.8.10",
     "vue": "^3.0.0-rc.9",
     "vue-router": "^4.0.0-beta.9"
   },
