@@ -1,21 +1,20 @@
 <template>
   <DefaultLayout>
-    <router-view/>
+    <router-view />
   </DefaultLayout>
 </template>
 
 <script lang="ts">
-import {ref, defineComponent} from 'vue'
+import { ref, defineComponent } from 'vue'
 import DefaultLayout from '@/layout/DefaultLayout.vue'
 
 export default defineComponent({
   components: {
-    DefaultLayout
+    DefaultLayout,
   },
   setup() {
-    return {
-    }
-  }
+    return {}
+  },
 })
 </script>
 
