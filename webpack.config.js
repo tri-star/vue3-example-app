@@ -12,13 +12,13 @@ module.exports = (env = {}) => ({
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/'
+    publicPath: '/dist/',
   },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
-    extensions: [".ts", ".vue", ".js"]
+    extensions: ['.ts', '.vue', '.js'],
   },
   module: {
     rules: [
@@ -27,26 +27,26 @@ module.exports = (env = {}) => ({
         exclude: /node_modules/,
         loader: 'ts-loader',
         options: {
-          appendTsSuffixTo: [/\.vue$/]
-        }
+          appendTsSuffixTo: [/\.vue$/],
+        },
       },
       {
         test: /\.vue$/,
-        use: 'vue-loader'
+        use: 'vue-loader',
       },
       {
         test: /\.png$/,
         use: {
           loader: 'url-loader',
-          options: { limit: 8192 }
-        }
+          options: { limit: 8192 },
+        },
       },
       {
         test: /\.css$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: { hmr: !env.prod }
+            options: { hmr: !env.prod },
           },
           'css-loader',
           {
@@ -54,32 +54,29 @@ module.exports = (env = {}) => ({
             options: {
               postcssOptions: {
                 ident: 'postcss',
-                plugins: [
-                  require('tailwindcss'),
-                  require('autoprefixer'),
-                ],
-              }
+                plugins: [require('tailwindcss'), require('autoprefixer')],
+              },
             },
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: '[name].css',
     }),
     new webpack.DefinePlugin({
       __VUE_OPTIONS_API__: 'true',
-      __VUE_PROD_DEVTOOLS__: 'false'
-    })
+      __VUE_PROD_DEVTOOLS__: 'false',
+    }),
   ],
   devServer: {
     inline: true,
     hot: true,
     stats: 'minimal',
     contentBase: __dirname,
-    overlay: true
-  }
+    overlay: true,
+  },
 })
