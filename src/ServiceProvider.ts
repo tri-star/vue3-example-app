@@ -1,7 +1,5 @@
-import { App } from "vue";
+import { App } from 'vue'
 
 export class ServiceProvider {
-  static boot(app: App): void {
-
-  }
+  static boot(app: App): void {}
 }
