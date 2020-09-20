@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto">
-    <div class="flex items-start flex-col">
-      <header class="flex items-center bg-blue-900 p-4 w-full">
-        <h1 class="text-white text-2xl mr-3">Example app</h1>
+    <div class="flex flex-col items-start">
+      <header class="flex items-center w-full p-4 bg-blue-900">
+        <h1 class="mr-3 text-2xl text-white">Example app</h1>
         <div class="items-end flex-grow text-right">
           <a href=""><span class="text-white material-icons">account_circle</span></a>
         </div>
@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+//a
 export default defineComponent({
   setup() {
     return {}

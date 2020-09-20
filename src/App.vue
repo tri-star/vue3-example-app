@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import DefaultLayout from '@/layout/DefaultLayout.vue'
 
 export default defineComponent({

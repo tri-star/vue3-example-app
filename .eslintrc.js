@@ -3,6 +3,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
     '@vue/typescript',
+    'plugin:tailwind/recommended',
     'plugin:prettier/recommended',
     'prettier/vue',
     'prettier/@typescript-eslint',
