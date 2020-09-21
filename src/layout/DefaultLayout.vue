@@ -7,7 +7,7 @@
           <a href=""><span class="text-white material-icons">account_circle</span></a>
         </div>
       </header>
-      <div class="p-2">
+      <div class="w-full p-2">
         <slot></slot>
       </div>
     </div>

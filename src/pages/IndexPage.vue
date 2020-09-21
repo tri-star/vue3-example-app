@@ -1,14 +1,28 @@
 <template>
-  <div>
-    <h1>Menu</h1>
-    <ul></ul>
+  <div class="flex flex-col">
+    <ExPageHeader :title="'ユーザー管理'" />
+    <UserList />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, provide } from 'vue'
+import ExPageHeader from '@/components/ExPageHeader.vue'
+import { UserListStore, UserListStoreKey } from './index/UserListStore'
+import UserList from './index/UserList.vue'
 
 export default defineComponent({
-  setup() {},
+  components: {
+    ExPageHeader,
+    UserList,
+  },
+  setup() {
+    const userListStore = new UserListStore()
+    provide(UserListStoreKey, userListStore)
+
+    userListStore.loadUserList()
+
+    return {}
+  },
 })
 </script>

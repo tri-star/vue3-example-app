@@ -2324,6 +2324,13 @@ findup-sync@^3.0.0:
     micromatch "^3.0.4"
     resolve-dir "^1.0.1"
 
+fishery@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/fishery/-/fishery-1.0.1.tgz#0c458ce8d5fc98327600fbb018611c026bbe3eba"
+  integrity sha512-VV8H4ZuCbZ9cCWkrYWLLPoAfpTp0t+hlJVoNWkRRHdXOgQ08wjd8ab9di8/Ed/QhgwxY3h7Y17HgDZ9osaHSSQ==
+  dependencies:
+    lodash.mergewith "^4.6.2"
+
 flat-cache@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"
@@ -3278,6 +3285,11 @@ lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
+
+lodash.mergewith@^4.6.2:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
+  integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
 
 lodash.toarray@^4.4.0:
   version "4.4.0"
