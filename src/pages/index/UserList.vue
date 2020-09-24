@@ -1,21 +1,21 @@
 <template>
   <div>
-    <table class="">
+    <table class="table">
       <tr>
-        <th>ID</th>
-        <th>名前</th>
-        <th>ログインID</th>
+        <th class="w-1/12 text-right">ID</th>
+        <th class="w-2/12 text-left">名前</th>
+        <th class="w-2/12 text-left">ログインID</th>
       </tr>
       <tbody v-if="!store.isPending()">
         <tr v-for="u in store.getUserList()" :key="u.id">
-          <td>{{ u.id }}</td>
+          <td class="text-right">{{ u.id }}</td>
           <td>{{ u.name }}</td>
           <td>{{ u.loginId }}</td>
         </tr>
       </tbody>
       <tbody v-else>
-        <tr colspan="3">
-          <td>Loading...</td>
+        <tr>
+          <td colspan="3">Loading...</td>
         </tr>
       </tbody>
     </table>
@@ -36,3 +36,15 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+.table {
+}
+
+.table th {
+  @apply p-1 bg-blue-200;
+}
+.table td {
+  @apply p-1;
+}
+</style>
