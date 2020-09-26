@@ -1,40 +1,37 @@
 import { User, UserList } from '@/domain/User'
+import { useApi, UseApiResult } from '@/hooks/useApi'
 import { UserRepository, UserRepositoryKey } from '@/repositories/UserRepository'
 import { inject, InjectionKey, reactive, ref } from 'vue'
 
-type UserListStoreStateType = {
+type UserListStoreState = {
   userList: UserList
-  isPendingFlag: boolean
 }
 
 export class UserListStore {
-  private state: UserListStoreStateType
+  public state: UserListStoreState
+  public userListLoader: UseApiResult<UserList>
+
   private userRepository: UserRepository
 
   public constructor() {
-    this.state = reactive<UserListStoreStateType>({
+    this.state = reactive<UserListStoreState>({
       userList: new Array<User>(),
-      isPendingFlag: false,
     })
     this.userRepository = inject<UserRepository>(UserRepositoryKey)!
-  }
-
-  public getUserList() {
-    return this.state.userList
+    this.userListLoader = useApi(async () => {
+      return await this.userRepository.fetchUserList()
+    })
   }
 
   public async loadUserList(): Promise<void> {
-    this.state.isPendingFlag = true
-    const users = await this.userRepository.fetchUserList()
+    const users = await this.userListLoader.execute()
     this.state.userList = []
-    users.forEach((u) => {
+    if (this.userListLoader.isError()) {
+      return
+    }
+    users!.forEach((u) => {
       this.state.userList.push(u)
     })
-    this.state.isPendingFlag = false
-  }
-
-  public isPending(): boolean {
-    return this.state.isPendingFlag
   }
 }
 

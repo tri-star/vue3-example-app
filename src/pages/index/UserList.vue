@@ -6,8 +6,13 @@
         <th class="w-2/12 text-left">名前</th>
         <th class="w-2/12 text-left">ログインID</th>
       </tr>
-      <tbody v-if="!store.isPending()">
-        <tr v-for="u in store.getUserList()" :key="u.id">
+      <tbody v-if="userListLoader.isPending()">
+        <tr>
+          <td colspan="3">Loading...</td>
+        </tr>
+      </tbody>
+      <tbody v-else-if="userListLoader.isDone()">
+        <tr v-for="u in store.state.userList" :key="u.id">
           <td class="text-right">{{ u.id }}</td>
           <td>{{ u.name }}</td>
           <td>{{ u.loginId }}</td>
@@ -15,7 +20,7 @@
       </tbody>
       <tbody v-else>
         <tr>
-          <td colspan="3">Loading...</td>
+          <td colspan="3">ロードに失敗しました<button @click="store.loadUserList">再試行</button></td>
         </tr>
       </tbody>
     </table>
@@ -29,9 +34,11 @@ import { UserListStore, UserListStoreKey } from './UserListStore'
 export default defineComponent({
   setup() {
     const store = inject<UserListStore>(UserListStoreKey)!
+    const userListLoader = store.userListLoader
 
     return {
       store,
+      userListLoader,
     }
   },
 })

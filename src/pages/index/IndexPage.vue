@@ -9,7 +9,7 @@
 import { defineComponent, provide } from 'vue'
 import ExPageHeader from '@/components/ExPageHeader.vue'
 import { UserListStore, UserListStoreKey } from './UserListStore'
-import UserList from './index/UserList.vue'
+import UserList from './UserList.vue'
 
 export default defineComponent({
   components: {
