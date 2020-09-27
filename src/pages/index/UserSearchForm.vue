@@ -9,7 +9,9 @@
       <div class="form-col w-6/12"><ExInput v-model="state.searchForm.loginId" class="w-full" /></div>
     </div>
     <div class="form-row">
-      <div class="form-col mx-auto"><button @click="store.loadUserList">検索</button></div>
+      <div class="form-col mx-auto">
+        <ExButton :title="'検索'" @onclick="onSearchButtonCliked" />
+      </div>
     </div>
   </div>
 </template>
@@ -17,19 +19,26 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
 import ExInput from '@/components/ExInput.vue'
+import ExButton from '@/components/ExButton.vue'
 import { UserListStore, UserListStoreKey } from './UserListStore'
 
 export default defineComponent({
   components: {
     ExInput,
+    ExButton,
   },
   setup() {
     const store = inject<UserListStore>(UserListStoreKey)!
     const state = store.state
 
+    const onSearchButtonCliked = () => {
+      store.loadUserList()
+    }
+
     return {
       store,
       state,
+      onSearchButtonCliked,
     }
   },
 })

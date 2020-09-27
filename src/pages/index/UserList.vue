@@ -24,7 +24,7 @@
       </tbody>
       <tbody v-else>
         <tr>
-          <td colspan="5">ロードに失敗しました<button @click="store.loadUserList">再試行</button></td>
+          <td colspan="5">ロードに失敗しました<button @click="onRetryClicked">再試行</button></td>
         </tr>
       </tbody>
     </table>
@@ -40,9 +40,14 @@ export default defineComponent({
     const store = inject<UserListStore>(UserListStoreKey)!
     const userListLoader = store.userListLoader
 
+    const onRetryClicked = () => {
+      store.loadUserList()
+    }
+
     return {
       store,
       userListLoader,
+      onRetryClicked,
     }
   },
 })
