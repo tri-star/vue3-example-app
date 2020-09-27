@@ -4,8 +4,13 @@ import { InjectionKey } from 'vue'
 
 export const UserRepositoryKey: InjectionKey<UserRepository> = Symbol('UserRepository')
 
+export type fetchUserListType = {
+  userList: UserList
+  totalCount: number
+}
+
 export class UserRepository {
-  public async fetchUserList(): Promise<UserList> {
+  public async fetchUserList(): Promise<fetchUserListType> {
     const userList: UserList = new Array<User>()
 
     const users: Array<User> = []
@@ -25,6 +30,10 @@ export class UserRepository {
       }, 500)
     )
 
-    return userList
+    const totalCount = users.length
+    return {
+      userList,
+      totalCount,
+    }
   }
 }

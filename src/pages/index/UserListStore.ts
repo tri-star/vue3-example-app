@@ -1,6 +1,6 @@
 import { User, UserList } from '@/domain/User'
 import { useApi, UseApiResult } from '@/hooks/useApi'
-import { UserRepository, UserRepositoryKey } from '@/repositories/UserRepository'
+import { fetchUserListType, UserRepository, UserRepositoryKey } from '@/repositories/UserRepository'
 import { inject, InjectionKey, reactive, ref } from 'vue'
 
 type UserListStoreState = {
@@ -9,11 +9,12 @@ type UserListStoreState = {
     loginId: string
   }
   userList: UserList
+  totalCount: number
 }
 
 export class UserListStore {
   public state: UserListStoreState
-  public userListLoader: UseApiResult<UserList>
+  public userListLoader: UseApiResult<fetchUserListType>
 
   private userRepository: UserRepository
 
@@ -24,6 +25,7 @@ export class UserListStore {
         loginId: '',
       },
       userList: new Array<User>(),
+      totalCount: 0,
     })
     this.userRepository = inject<UserRepository>(UserRepositoryKey)!
     this.userListLoader = useApi(async () => {
@@ -32,14 +34,16 @@ export class UserListStore {
   }
 
   public async loadUserList(): Promise<void> {
-    const users = await this.userListLoader.execute()
     this.state.userList = []
+    this.state.totalCount = 0
+    const result = await this.userListLoader.execute()
     if (this.userListLoader.isError()) {
       return
     }
-    users!.forEach((u) => {
+    result!.userList.forEach((u) => {
       this.state.userList.push(u)
     })
+    this.state.totalCount = result!.totalCount
   }
 }
 

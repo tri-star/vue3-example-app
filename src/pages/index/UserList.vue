@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div>
+      <p>計： {{ store.state.totalCount }}件</p>
+    </div>
     <table class="table">
       <tr>
         <th class="w-1/12 text-center"><input type="checkbox" /></th>
