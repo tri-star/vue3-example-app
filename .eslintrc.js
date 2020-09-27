@@ -10,6 +10,7 @@ module.exports = {
   ],
   env: {
     node: true,
+    browser: true,
   },
   rules: {
     'comma-dangle': ['error', 'only-multiline'],

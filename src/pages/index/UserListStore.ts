@@ -1,5 +1,6 @@
 import { User, UserList } from '@/domain/User'
 import { useApi, UseApiResult } from '@/hooks/useApi'
+import { usePaginator, UsePaginatorResult } from '@/hooks/usePaginator'
 import { fetchUserListType, UserRepository, UserRepositoryKey } from '@/repositories/UserRepository'
 import { inject, InjectionKey, reactive, ref } from 'vue'
 
@@ -15,10 +16,13 @@ type UserListStoreState = {
 export class UserListStore {
   public state: UserListStoreState
   public userListLoader: UseApiResult<fetchUserListType>
+  public paginator: UsePaginatorResult
+  private pageSize: number
 
   private userRepository: UserRepository
 
   public constructor() {
+    this.pageSize = 5
     this.state = reactive<UserListStoreState>({
       searchForm: {
         userName: '',
@@ -29,8 +33,9 @@ export class UserListStore {
     })
     this.userRepository = inject<UserRepository>(UserRepositoryKey)!
     this.userListLoader = useApi(async () => {
-      return await this.userRepository.fetchUserList()
+      return await this.userRepository.fetchUserList(this.paginator.getPage(), this.pageSize)
     })
+    this.paginator = usePaginator()
   }
 
   public async loadUserList(): Promise<void> {
@@ -44,6 +49,7 @@ export class UserListStore {
       this.state.userList.push(u)
     })
     this.state.totalCount = result!.totalCount
+    this.paginator.update(this.state.totalCount, 5)
   }
 }
 

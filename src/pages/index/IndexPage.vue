@@ -7,7 +7,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide } from 'vue'
+import { useRoute } from 'vue-router'
+import { defineComponent, provide, watchEffect } from 'vue'
 import ExPageHeader from '@/components/ExPageHeader.vue'
 import { UserListStore, UserListStoreKey } from './UserListStore'
 import UserList from './UserList.vue'
@@ -23,7 +24,16 @@ export default defineComponent({
     const userListStore = new UserListStore()
     provide(UserListStoreKey, userListStore)
 
-    userListStore.loadUserList()
+    const route = useRoute()
+
+    watchEffect(() => {
+      if (route.query.page != null) {
+        userListStore.paginator.setPage(Number.parseInt(route.query['page'] as string))
+      }
+      userListStore.loadUserList()
+    })
+
+    //userListStore.loadUserList()
 
     return {}
   },

@@ -18,10 +18,13 @@ export default defineComponent({
 
 <style scoped>
 button {
-  @apply border rounded px-5 py-2 bg-gray-200;
+  @apply border rounded px-5 py-2 bg-gray-200 border-gray-100;
+  box-shadow: 0 3px rgba(0, 0, 0, 30%);
 }
 
 button:active {
-  @apply bg-gray-300 pt-3 pb-1;
+  @apply bg-gray-300 relative border-gray-100;
+  top: 3px;
+  box-shadow: none;
 }
 </style>

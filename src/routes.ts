@@ -8,7 +8,7 @@ export const route = createRouter({
   routes: [
     {
       path: '/',
-      name: 'indexPage',
+      name: 'index',
       component: IndexPage,
     },
   ],

@@ -2,6 +2,9 @@
   <div>
     <div>
       <p>計： {{ store.state.totalCount }}件</p>
+      <div>
+        <ExPaginator :route-name="'index'" :pages="paginator.getPageLinks()" :current-page="paginator.getPage()" />
+      </div>
     </div>
     <table class="table">
       <tr>
@@ -37,11 +40,16 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
 import { UserListStore, UserListStoreKey } from './UserListStore'
+import ExPaginator from '@/components/ExPaginator.vue'
 
 export default defineComponent({
+  components: {
+    ExPaginator,
+  },
   setup() {
     const store = inject<UserListStore>(UserListStoreKey)!
     const userListLoader = store.userListLoader
+    const paginator = store.paginator
 
     const onRetryClicked = () => {
       store.loadUserList()
@@ -51,6 +59,7 @@ export default defineComponent({
       store,
       userListLoader,
       onRetryClicked,
+      paginator,
     }
   },
 })
