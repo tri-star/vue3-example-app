@@ -1,9 +1,14 @@
 <template>
   <div>
     <div>
-      <p>計： {{ store.state.totalCount }}件</p>
       <div>
-        <ExPaginator :route-name="'index'" :pages="paginator.getPageLinks()" :current-page="paginator.getPage()" />
+        <p>計： {{ store.state.totalCount }}件</p>
+        <ExPaginator
+          class="my-2"
+          :route-name="'index'"
+          :pages="paginator.getPageLinks()"
+          :current-page="paginator.getPage()"
+        />
       </div>
     </div>
     <table class="table">
