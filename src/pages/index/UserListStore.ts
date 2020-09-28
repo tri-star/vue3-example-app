@@ -33,7 +33,7 @@ export class UserListStore {
     })
     this.userRepository = inject<UserRepository>(UserRepositoryKey)!
     this.userListLoader = useApi(async () => {
-      return await this.userRepository.fetchUserList(this.paginator.getPage(), this.pageSize)
+      return await this.userRepository.fetchUserList(this.paginator.getPage(), this.pageSize, this.state.searchForm)
     })
     this.paginator = usePaginator()
   }

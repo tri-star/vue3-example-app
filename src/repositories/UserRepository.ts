@@ -10,10 +10,16 @@ export type fetchUserListType = {
 }
 
 export class UserRepository {
-  public async fetchUserList(page: number, pageSize: number): Promise<fetchUserListType> {
+  public async fetchUserList(
+    page: number,
+    pageSize: number,
+    conditions: Record<string, any>
+  ): Promise<fetchUserListType> {
     const userList: UserList = new Array<User>()
 
-    const users: Array<User> = this.loadUsers()
+    let users: Array<User> = this.loadUsers()
+    users = this.filterUserList(users, conditions)
+    console.log(users)
 
     const offset = Math.max((page - 1) * pageSize, 0)
     let count = 0
@@ -63,5 +69,22 @@ export class UserRepository {
       )
     }
     return users
+  }
+
+  private filterUserList(users: UserList, conditions: Record<string, any>): UserList {
+    const filteredUsers = users.filter((u) => {
+      if (conditions['userName'] && conditions['userName'].length > 0) {
+        if (!u.name.includes(String(conditions['userName']))) {
+          return false
+        }
+      }
+      if (conditions['loginId'] && conditions['loginId'].length > 0) {
+        if (!u.loginId.includes(String(conditions['loginId']))) {
+          return false
+        }
+      }
+      return true
+    })
+    return filteredUsers
   }
 }
