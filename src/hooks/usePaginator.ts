@@ -21,10 +21,11 @@ export const usePaginator: usePaginator = () => {
     state.pageSize = pageSize
     state.pageLinks = []
 
-    const pages = totalCount / pageSize + (totalCount % pageSize == 0 ? 0 : 1)
+    const pages = Math.floor(totalCount / pageSize + (totalCount % pageSize == 0 ? 0 : 1))
     let min = Math.max(1, state.currentPage - 3)
     const max = Math.min(pages, min + 6)
     min = Math.min(min, max - 6)
+    min = Math.max(min, 1)
     for (let i = min; i <= max; i++) {
       state.pageLinks.push(i)
     }
