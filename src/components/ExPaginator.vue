@@ -1,5 +1,5 @@
 <template>
-  <ul class="flex justify-end space-x-2">
+  <ul class="flex space-x-2">
     <li v-for="page in pages" :key="page" class="">
       <RouterLink :to="{ name: routeName, query: { page: page } }" :class="{ active: isCurrentPage(page) }">{{
         page

@@ -1,10 +1,10 @@
 <template>
   <div>
     <div>
-      <div>
-        <p>計： {{ store.state.totalCount }}件</p>
+      <div class="flex items-center space-x-3">
+        <div class="flex-grow">計： {{ store.state.totalCount }}件</div>
         <ExPaginator
-          class="my-2"
+          class="my-2 flex-grow-0 justify-items-end"
           :route-name="'index'"
           :pages="paginator.getPageLinks()"
           :current-page="paginator.getPage()"
