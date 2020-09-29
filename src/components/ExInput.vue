@@ -1,7 +1,7 @@
 <template>
   <input
     type="text"
-    class="border-black border p-1"
+    class="border border-gray-500 p-1"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
   />
