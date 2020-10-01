@@ -19,14 +19,12 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
 import ExInput from '@/components/ExInput.vue'
-import ExButton from '@/components/ExButton.vue'
 import { UserListStore, UserListStoreKey } from './UserListStore'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
   components: {
     ExInput,
-    ExButton,
   },
   setup() {
     const store = inject<UserListStore>(UserListStoreKey)!

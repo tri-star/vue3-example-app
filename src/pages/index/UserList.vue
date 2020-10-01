@@ -49,13 +49,11 @@
 import { defineComponent, inject } from 'vue'
 import { UserListStore, UserListStoreKey } from './UserListStore'
 import ExPaginator from '@/components/ExPaginator.vue'
-import ExSmallButton from '@/components/ExSmallButton.vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
   components: {
     ExPaginator,
-    ExSmallButton,
   },
   setup() {
     const store = inject<UserListStore>(UserListStoreKey)!

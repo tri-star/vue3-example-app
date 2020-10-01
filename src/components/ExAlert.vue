@@ -1,7 +1,7 @@
 <template>
   <div>
-    <transition name="float-tip">
-      <div v-if="visible" class="float-tip bg-green-300 p-3 my-3 rounded-md w-full">{{ title }}</div>
+    <transition name="float-alert">
+      <div v-if="visible" class="float-alert bg-green-300 p-3 my-3 rounded-md w-full">{{ message }}</div>
     </transition>
   </div>
 </template>
@@ -11,7 +11,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-    title: {
+    message: {
       type: String,
       required: true,
     },
@@ -24,18 +24,19 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.float-tip-enter-active,
-.float-tip-leave-active {
+.float-alert-enter-active,
+.float-alert-leave-active {
   transition: all 0.5s ease;
 }
 
-.float-tip-enter-from,
-.float-tip-leave-to {
+.float-alert-enter-from,
+.float-alert-leave-to {
   opacity: 0;
   height: 0;
 }
 
-.float-tip {
+.float-alert {
   height: 50px;
+  @apply text-green-900;
 }
 </style>
