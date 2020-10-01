@@ -2,7 +2,10 @@
   <div>
     <div>
       <div class="flex items-center space-x-3">
-        <div class="flex-grow">計： {{ store.state.totalCount }}件</div>
+        <div class="flex">計： {{ store.state.totalCount }}件</div>
+        <div class="flex-grow my-2">
+          <ExSmallButton :title="'新規登録'" @click="onRegisterClicked" />
+        </div>
         <ExPaginator
           class="my-2 flex-grow-0 justify-items-end"
           :route-name="'index'"
@@ -46,24 +49,33 @@
 import { defineComponent, inject } from 'vue'
 import { UserListStore, UserListStoreKey } from './UserListStore'
 import ExPaginator from '@/components/ExPaginator.vue'
+import ExSmallButton from '@/components/ExSmallButton.vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   components: {
     ExPaginator,
+    ExSmallButton,
   },
   setup() {
     const store = inject<UserListStore>(UserListStoreKey)!
     const userListLoader = store.userListLoader
     const paginator = store.paginator
+    const router = useRouter()
 
     const onRetryClicked = () => {
       store.loadUserList()
+    }
+
+    const onRegisterClicked = () => {
+      router.push({ name: 'user-register' })
     }
 
     return {
       store,
       userListLoader,
       onRetryClicked,
+      onRegisterClicked,
       paginator,
     }
   },

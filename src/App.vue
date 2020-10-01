@@ -2,6 +2,7 @@
   <DefaultLayout>
     <router-view />
   </DefaultLayout>
+  <div id="loading-modal"></div>
 </template>
 
 <script lang="ts">

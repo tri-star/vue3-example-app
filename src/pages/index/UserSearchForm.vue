@@ -57,21 +57,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style>
-.form {
-  @apply flex flex-col;
-}
-
-.form-row {
-  @apply flex flex-row items-center;
-}
-
-.form-header {
-  @apply bg-gray-100 p-2;
-}
-
-.form-col {
-  @apply p-2;
-}
-</style>

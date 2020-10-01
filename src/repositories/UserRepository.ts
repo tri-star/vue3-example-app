@@ -1,6 +1,7 @@
 import { User, UserList } from '@/domain/User'
 import { userFactory } from '@/factories/userFactory'
 import { InjectionKey } from 'vue'
+import { stringifyQuery } from 'vue-router'
 
 export const UserRepositoryKey: InjectionKey<UserRepository> = Symbol('UserRepository')
 
@@ -19,7 +20,6 @@ export class UserRepository {
 
     let users: Array<User> = this.loadUsers()
     users = this.filterUserList(users, conditions)
-    console.log(users)
 
     const offset = Math.max((page - 1) * pageSize, 0)
     let count = 0
@@ -86,5 +86,33 @@ export class UserRepository {
       return true
     })
     return filteredUsers
+  }
+
+  public async register(userData: Record<string, any>): Promise<void> {
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve()
+      }, 200)
+    )
+
+    let users: Array<Record<string, any>> = []
+    const usersJson: string | null = localStorage.getItem('users')
+    if (usersJson) {
+      users = JSON.parse(usersJson)
+    }
+    const maxId = users
+      .map<number>((user) => {
+        return user.id ?? 0
+      })
+      .reduce((maxId, id) => {
+        return maxId < id ? id : maxId
+      })
+
+    users.push({
+      id: maxId + 1,
+      name: userData.name,
+      loginId: userData.loginId,
+    })
+    localStorage.setItem('users', JSON.stringify(users))
   }
 }
