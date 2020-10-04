@@ -1,6 +1,5 @@
 import { constraints } from '@/lib/validator/constraints'
 import { RuleCollection, RuleCollectionInterface, RuleSet } from '@/lib/validator/Rule'
-import { resolveTransitionHooks } from 'vue'
 
 export type UserParam = {
   id: number
@@ -48,11 +47,11 @@ export class UserRegisterRuleCollection extends RuleCollection {
     this.collection = {
       name: {
         required: constraints.required(),
-        length: constraints.length(1, 15),
+        length: constraints.maxLength(15),
       },
       loginId: {
         required: constraints.required(),
-        length: constraints.length(1, 15),
+        length: constraints.maxLength(15),
       },
     }
   }

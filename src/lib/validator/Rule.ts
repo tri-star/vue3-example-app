@@ -7,15 +7,15 @@ export type constraintFunction = {
   (value: any, parameters: Record<string, any>, context: Record<string, any>): RuleResult
 }
 
-type Rule =
-  | constraintFunction
-  | {
-      name?: string
-      rule: constraintFunction
-      target?: string
-      message?: string
-      parameters?: Record<string, any>
-    }
+export type ConstraintObject = {
+  name?: string
+  rule: constraintFunction
+  target?: string
+  message?: string
+  parameters?: Record<string, any>
+}
+
+type Rule = constraintFunction | ConstraintObject
 
 export type RuleSet = Record<string, Rule>
 
