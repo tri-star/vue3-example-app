@@ -1,5 +1,5 @@
-import { constraints } from './constraints'
 import { constraintFunction, ConstraintObject, RuleCollectionInterface, RuleResult } from './Rule'
+import _get from 'lodash.get'
 
 function isConstraintFunction(arg: any): arg is constraintFunction {
   return typeof arg === 'function'
@@ -58,12 +58,14 @@ export class Validator {
 
     const rules = collection.getRules()
     let r: RuleResult
-    const value = ''
+    let value: any
     let rule: any
     let constraint: constraintFunction
     let target: string
     let parameters: Record<string, any> = {}
+
     for (const field in rules) {
+      value = _get(input, field)
       for (const ruleName in rules[field]) {
         rule = rules[field][ruleName]
         if (isConstraintFunction(rule)) {
