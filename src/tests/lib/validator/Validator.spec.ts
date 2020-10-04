@@ -94,4 +94,48 @@ describe('Validator', () => {
     )
     expect(result.hasError('company.name')).toBe(true)
   })
+
+  describe('初期データを使うバリデーションの場合', () => {
+    let validatorWithInitData: Validator
+
+    beforeEach(() => {
+      validatorWithInitData = new Validator()
+    })
+
+    it('初期データからデータが変わっていない場合はバリデーションされない', () => {
+      const data = {
+        name: '',
+      }
+      validatorWithInitData.setInitialData(data)
+      ruleCollection.addRule('name', constraints.required())
+      const result = validatorWithInitData.validate(data, ruleCollection)
+      expect(result.isError()).toBe(false)
+    })
+
+    it('初期データからデータを変更するとバリデーションが行われる', () => {
+      const data = {
+        name: '',
+      }
+      validatorWithInitData.setInitialData(data)
+      data['name'] = 'aaa'
+      ruleCollection.addRule('name', constraints.maxLength(2))
+      const result = validatorWithInitData.validate(data, ruleCollection)
+      expect(result.isError()).toBe(true)
+    })
+
+    it('初期データからデータを変更した後は、初期データと同じ値に戻してもバリデーションが行われる', () => {
+      const data = {
+        name: '',
+      }
+      validatorWithInitData.setInitialData(data)
+      data['name'] = 'aaa'
+      ruleCollection.addRule('name', constraints.required())
+      let result = validatorWithInitData.validate(data, ruleCollection)
+      expect(result.isError()).toBe(false)
+
+      data['name'] = ''
+      result = validatorWithInitData.validate(data, ruleCollection)
+      expect(result.isError()).toBe(true)
+    })
+  })
 })

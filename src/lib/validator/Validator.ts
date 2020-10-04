@@ -1,5 +1,6 @@
 import { constraintFunction, ConstraintObject, RuleCollectionInterface, RuleResult } from './Rule'
 import _get from 'lodash.get'
+import _cloneDeep from 'lodash.clonedeep'
 
 function isConstraintFunction(arg: any): arg is constraintFunction {
   return typeof arg === 'function'
@@ -53,11 +54,25 @@ export class ValidationResult {
 }
 
 export class Validator {
+  private initialData: Record<string, any>
+  private dirtyFlags: Record<string, boolean>
+
+  public constructor(initialData?: Record<string, any>) {
+    this.initialData = _cloneDeep(initialData) ?? {}
+    this.dirtyFlags = {}
+  }
+
+  public setInitialData(initialData?: Record<string, any>) {
+    this.initialData = _cloneDeep(initialData) ?? {}
+    this.dirtyFlags = {}
+  }
+
   public validate(input: Record<string, any>, collection: RuleCollectionInterface): ValidationResult {
     const result = new ValidationResult()
 
     const rules = collection.getRules()
     let r: RuleResult
+    let initialValue: any
     let value: any
     let rule: any
     let constraint: constraintFunction
@@ -65,7 +80,13 @@ export class Validator {
     let parameters: Record<string, any> = {}
 
     for (const field in rules) {
+      initialValue = _get(this.initialData, field, undefined)
       value = _get(input, field)
+      if (!this.isDirty(field) && value === initialValue) {
+        continue
+      }
+      this.setDirty(field)
+
       for (const ruleName in rules[field]) {
         rule = rules[field][ruleName]
         if (isConstraintFunction(rule)) {
@@ -86,5 +107,13 @@ export class Validator {
     }
 
     return result
+  }
+
+  private isDirty(field: string): boolean {
+    return this.dirtyFlags[field] !== undefined && this.dirtyFlags[field] === true
+  }
+
+  private setDirty(field: string): void {
+    this.dirtyFlags[field] = true
   }
 }
