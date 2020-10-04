@@ -27,4 +27,8 @@ button:active {
   top: 3px;
   box-shadow: none;
 }
+
+button:disabled {
+  @apply bg-gray-400 relative border-gray-300 text-gray-600 cursor-not-allowed;
+}
 </style>

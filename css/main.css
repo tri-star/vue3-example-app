@@ -19,3 +19,11 @@
 .form-col {
   @apply p-2;
 }
+
+.form-error {
+  @apply bg-red-100;
+}
+
+.form-error-message {
+  @apply text-red-700;
+}
