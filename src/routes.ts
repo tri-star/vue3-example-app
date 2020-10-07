@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import IndexPage from './pages/index/IndexPage.vue'
+import LoginPage from './pages/login/LoginPage.vue'
 import UserFormPage from './pages/index/UserFormPage.vue'
 
-export const routerHistory = createWebHistory()
+const routerHistory = createWebHistory()
 
 export const route = createRouter({
   history: routerHistory,
@@ -11,6 +12,14 @@ export const route = createRouter({
       path: '/',
       name: 'index',
       component: IndexPage,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginPage,
+      meta: {
+        allowGuest: true,
+      },
     },
     {
       path: '/user/register',

@@ -26,8 +26,8 @@ export interface RuleCollectionInterface {
 export class RuleCollection implements RuleCollectionInterface {
   protected collection: Record<string, RuleSet>
 
-  public constructor() {
-    this.collection = {}
+  public constructor(collection?: Record<string, RuleSet>) {
+    this.collection = collection ?? {}
   }
 
   getRules(): Record<string, RuleSet> {

@@ -8,10 +8,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, inject } from 'vue'
+import { useRouter } from 'vue-router'
+import { AuthHandlerInterface, AuthHandlerInterfaceKey } from './domain/AuthHandlerInterface'
 
 export default defineComponent({
   setup() {
+    const router = useRouter()
+    const authHandler = inject<AuthHandlerInterface>(AuthHandlerInterfaceKey)!
+
+    router.beforeEach((to, from, next) => {
+      //認証状態を確認する(本来は1分程度キャッシュするなどが必要)
+      //認証OKなら抜ける
+      //認証NGならログインページに飛ばす
+      const user = authHandler.getUser()
+
+      if (to.meta.allowGuest) {
+        next()
+        return
+      }
+
+      if (user) {
+        next()
+        return
+      }
+
+      next({ name: 'login' })
+    })
+
     return {}
   },
 })
