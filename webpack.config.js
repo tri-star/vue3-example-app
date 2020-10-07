@@ -78,5 +78,8 @@ module.exports = (env = {}) => ({
     stats: 'minimal',
     contentBase: __dirname,
     overlay: true,
+    historyApiFallback: {
+      index: 'index.html',
+    },
   },
 })
