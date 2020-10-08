@@ -1,6 +1,7 @@
 import { App } from 'vue'
 
 import DefaultLayout from '@/layout/DefaultLayout.vue'
+import LoginLayout from '@/layout/LoginLayout.vue'
 import ExPageHeader from '@/components/ExPageHeader.vue'
 import ExAlert from '@/components/ExAlert.vue'
 import ExButton from '@/components/ExButton.vue'
@@ -9,6 +10,7 @@ import ExLoadingModal from '@/components/ExLoadingModal.vue'
 
 export const loadComponents = (app: App) => {
   app.component('DefaultLayout', DefaultLayout)
+  app.component('LoginLayout', LoginLayout)
   app.component('ExPageHeader', ExPageHeader)
   app.component('ExAlert', ExAlert)
   app.component('ExButton', ExButton)

@@ -11,6 +11,21 @@ export type fetchUserListType = {
 }
 
 export class UserRepository {
+  public async fetchUser(loginId: string): Promise<User | null> {
+    const users: Array<User> = this.loadUsers()
+    const user = users.reduce((accumlator: User | null, u: User) => {
+      return u.loginId === loginId ? u : accumlator
+    }, null)
+
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve()
+      }, 200)
+    )
+
+    return user
+  }
+
   public async fetchUserList(
     page: number,
     pageSize: number,

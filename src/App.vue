@@ -21,19 +21,18 @@ export default defineComponent({
       //認証状態を確認する(本来は1分程度キャッシュするなどが必要)
       //認証OKなら抜ける
       //認証NGならログインページに飛ばす
-      const user = authHandler.getUser()
+      authHandler.getUser().then((user) => {
+        if (to.meta.allowGuest) {
+          next()
+          return
+        }
 
-      if (to.meta.allowGuest) {
-        next()
-        return
-      }
-
-      if (user) {
-        next()
-        return
-      }
-
-      next({ name: 'login' })
+        if (user) {
+          next()
+          return
+        }
+        next({ name: 'login' })
+      })
     })
 
     return {}

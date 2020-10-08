@@ -2,7 +2,9 @@ import { InjectionKey } from 'vue'
 import { User } from './User'
 
 export interface AuthHandlerInterface {
-  getUser: () => User | null
+  getUser: () => Promise<User | null>
+
+  login: (loginId: string, password: string) => Promise<boolean>
 }
 
 export const AuthHandlerInterfaceKey: InjectionKey<AuthHandlerInterface> = Symbol('AuthHandlerInterface')
