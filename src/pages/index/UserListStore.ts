@@ -1,5 +1,6 @@
 import { User, UserList } from '@/domain/User'
 import { useApi, UseApiResult } from '@/hooks/useApi'
+import { useBulkCheck } from '@/hooks/useBulkCheck'
 import { usePaginator, UsePaginatorResult } from '@/hooks/usePaginator'
 import { fetchUserListType, UserRepository, UserRepositoryKey } from '@/repositories/UserRepository'
 import { inject, InjectionKey, reactive, ref } from 'vue'
@@ -17,6 +18,7 @@ export class UserListStore {
   public state: UserListStoreState
   public userListLoader: UseApiResult<fetchUserListType>
   public paginator: UsePaginatorResult
+  public bulkCheck
   private pageSize: number
 
   private userRepository: UserRepository
@@ -36,6 +38,7 @@ export class UserListStore {
       return await this.userRepository.fetchUserList(this.paginator.getPage(), this.pageSize, this.state.searchForm)
     })
     this.paginator = usePaginator()
+    this.bulkCheck = useBulkCheck()
   }
 
   public async loadUserList(): Promise<void> {
@@ -50,6 +53,12 @@ export class UserListStore {
     })
     this.state.totalCount = result!.totalCount
     this.paginator.update(this.state.totalCount, 5)
+
+    this.bulkCheck.initialize(
+      this.state.userList.map((u) => {
+        return u.id
+      })
+    )
   }
 }
 
