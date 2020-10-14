@@ -25,6 +25,10 @@ export class AuthHandler implements AuthHandlerInterface {
     return true
   }
 
+  public async logout(): Promise<void> {
+    localStorage.removeItem('loginId')
+  }
+
   public async getUser(): Promise<User | null> {
     const loginId = localStorage.getItem('loginId')
     if (loginId === null) {

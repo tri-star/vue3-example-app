@@ -23,10 +23,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, inject, ref } from 'vue'
 import ExDropDown from '@/components/ExDropDown.vue'
 import ExDropDownItem from '@/components/ExDropDownItem.vue'
 import ExDropDownItemSeparator from '@/components/ExDropDownItemSeparator.vue'
+import { useRouter } from 'vue-router'
+import { AuthHandlerInterfaceKey, AuthHandlerInterface } from '@/domain/AuthHandlerInterface'
 
 export default defineComponent({
   components: {
@@ -36,12 +38,19 @@ export default defineComponent({
   },
   setup() {
     const showMenu = ref(false)
+    const router = useRouter()
+    const authHandler = inject<AuthHandlerInterface>(AuthHandlerInterfaceKey)!
 
     const onIconClicked = () => {
       showMenu.value = !showMenu.value
     }
-    const onMenuClicked = (menuId: string) => {
-      console.log(menuId)
+    const onMenuClicked = async (menuId: string) => {
+      switch (menuId) {
+        case 'logout':
+          await authHandler.logout()
+          router.push({ name: 'login' })
+          break
+      }
       showMenu.value = false
     }
 
