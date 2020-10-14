@@ -1,6 +1,6 @@
 <template>
   <li class="hover:bg-blue-100 cursor-pointer" role="menuitem">
-    <a class="px-4 py-2 block w-full h-full box-border" @click="onClicked">{{ title }}</a>
+    <a class="px-4 py-1 block box-border text-left" style="width: 120px" @click="onClicked">{{ title }}</a>
   </li>
 </template>
 
