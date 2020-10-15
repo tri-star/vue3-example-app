@@ -7,9 +7,9 @@
         <div class="form-row">
           <div class="form-header w-2/12">ユーザー名</div>
           <div class="form-col w-6/12">
-            <ExInput v-model="state.form.name" :class="{ 'w-full': 1, 'form-error': validator.hasError('name') }" />
-            <div v-if="validator.hasError('name')">
-              <p v-for="(message, i) in validator.getMessages('name')" :key="i" class="form-error-message">
+            <ExInput v-model="state.form.name" :class="{ 'w-full': 1, 'form-error': isNameError }" />
+            <div v-if="isNameError">
+              <p v-for="(message, i) in state.errors['name']" :key="i" class="form-error-message">
                 {{ message }}
               </p>
             </div>
@@ -18,12 +18,9 @@
         <div class="form-row">
           <div class="form-header w-2/12">ログインID</div>
           <div class="form-col w-6/12">
-            <ExInput
-              v-model="state.form.loginId"
-              :class="{ 'w-full': 1, 'form-error': validator.hasError('loginId') }"
-            />
-            <div v-if="validator.hasError('loginId')">
-              <p v-for="(message, i) in validator.getMessages('loginId')" :key="i" class="form-error-message">
+            <ExInput v-model="state.form.loginId" :class="{ 'w-full': 1, 'form-error': isLoginIdError }" />
+            <div v-if="isLoginIdError">
+              <p v-for="(message, i) in state.errors['loginId']" :key="i" class="form-error-message">
                 {{ message }}
               </p>
             </div>
@@ -31,7 +28,7 @@
         </div>
         <div class="form-row">
           <div class="form-col mx-auto">
-            <ExButton :title="'登録'" class="mr-3" :disabled="validator.isError()" @onclick="onRegisterClicked" />
+            <ExButton :title="'登録'" class="mr-3" :disabled="isFormError" @onclick="onRegisterClicked" />
             <ExButton :title="'キャンセル'" @onclick="onCancelClicked" />
           </div>
         </div>
@@ -48,8 +45,6 @@ import { computed, defineComponent, watch } from 'vue'
 import ExInput from '@/components/ExInput.vue'
 import { useRouter } from 'vue-router'
 import { UserFormStore } from './UserFormStore'
-import { useValidator } from '@/hooks/useValidator'
-import { UserRegisterRuleCollection } from '@/domain/User'
 
 export default defineComponent({
   components: {
@@ -60,9 +55,8 @@ export default defineComponent({
     const userFormStore = new UserFormStore()
     const state = userFormStore.state
     const userRegisterHandler = userFormStore.userRegisterHandler
-    const validator = useValidator()
 
-    validator.setInitialData(state.form)
+    userFormStore.initialize()
 
     const onCancelClicked = () => {
       router.back()
@@ -71,14 +65,22 @@ export default defineComponent({
       userFormStore.register()
     }
 
-    const ruleCollection = new UserRegisterRuleCollection()
-
     watch(state.form, () => {
-      validator.validate(state.form, ruleCollection)
+      userFormStore.validate()
     })
 
     const isPending = computed(() => {
       return userRegisterHandler.isPending()
+    })
+
+    const isNameError = computed(() => {
+      return 'name' in state.errors
+    })
+    const isLoginIdError = computed(() => {
+      return 'loginId' in state.errors
+    })
+    const isFormError = computed(() => {
+      return Object.keys(state.errors).length > 0
     })
 
     return {
@@ -87,7 +89,9 @@ export default defineComponent({
       onRegisterClicked,
       userRegisterHandler,
       isPending,
-      validator,
+      isNameError,
+      isLoginIdError,
+      isFormError,
     }
   },
 })

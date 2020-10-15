@@ -67,7 +67,11 @@ export class Validator {
     this.dirtyFlags = {}
   }
 
-  public validate(input: Record<string, any>, collection: RuleCollectionInterface): ValidationResult {
+  public validate(
+    input: Record<string, any>,
+    collection: RuleCollectionInterface,
+    force: boolean = false
+  ): ValidationResult {
     const result = new ValidationResult()
 
     const rules = collection.getRules()
@@ -82,8 +86,10 @@ export class Validator {
     for (const field in rules) {
       initialValue = _get(this.initialData, field, undefined)
       value = _get(input, field)
-      if (!this.isDirty(field) && value === initialValue) {
-        continue
+      if (!force) {
+        if (!this.isDirty(field) && value === initialValue) {
+          continue
+        }
       }
       this.setDirty(field)
 

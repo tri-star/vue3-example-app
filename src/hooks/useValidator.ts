@@ -27,8 +27,8 @@ export const useValidator = () => {
     }
   }
 
-  const validate = (input: Record<string, any>, ruleCollection: RuleCollectionInterface) => {
-    result = validator.validate(input, ruleCollection)
+  const validate = (input: Record<string, any>, ruleCollection: RuleCollectionInterface, force: boolean = false) => {
+    result = validator.validate(input, ruleCollection, force)
     updateErrors(result.getAll())
   }
 
@@ -38,6 +38,10 @@ export const useValidator = () => {
 
   const hasError = (field: string): boolean => {
     return result.hasError(field)
+  }
+
+  const getErrors = (): Record<string, string[]> => {
+    return state.errors
   }
 
   const getMessages = (field: string): string[] => {
@@ -56,5 +60,6 @@ export const useValidator = () => {
     isError,
     hasError,
     getMessages,
+    getErrors,
   }
 }
