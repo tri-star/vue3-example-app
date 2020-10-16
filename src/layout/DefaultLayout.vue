@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto">
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center h-full">
       <header class="flex items-center w-full p-4 bg-blue-900">
         <h1 class="mr-3 text-2xl text-white">Example app</h1>
         <div class="items-end flex-grow text-right">
@@ -15,8 +15,13 @@
           </ExDropDown>
         </div>
       </header>
-      <div class="container w-11/12 pt-3">
-        <slot></slot>
+      <div class="flex w-full h-full">
+        <SideMenu />
+        <div class="flex-1 flex flex-col items-center">
+          <div class="container w-11/12 pt-3 px-3">
+            <slot></slot>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -27,6 +32,7 @@ import { defineComponent, inject, ref } from 'vue'
 import ExDropDown from '@/components/ExDropDown.vue'
 import ExDropDownItem from '@/components/ExDropDownItem.vue'
 import ExDropDownItemSeparator from '@/components/ExDropDownItemSeparator.vue'
+import SideMenu from '@/components/side-menu/SideMenu.vue'
 import { useRouter } from 'vue-router'
 import { AuthHandlerInterfaceKey, AuthHandlerInterface } from '@/domain/AuthHandlerInterface'
 
@@ -35,6 +41,7 @@ export default defineComponent({
     ExDropDown,
     ExDropDownItem,
     ExDropDownItemSeparator,
+    SideMenu,
   },
   setup() {
     const showMenu = ref(false)
