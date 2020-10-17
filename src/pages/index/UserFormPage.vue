@@ -1,43 +1,39 @@
 <template>
-  <DefaultLayout>
-    <template #default>
-      <ExPageHeader :title="'ユーザー登録'" />
-      <ExAlert :message="'ユーザーを登録しました'" :visible="state.showTips" />
-      <div class="form">
-        <div class="form-row">
-          <div class="form-header w-2/12">ユーザー名</div>
-          <div class="form-col w-6/12">
-            <ExInput v-model="state.form.name" :class="{ 'w-full': 1, 'form-error': isNameError }" />
-            <div v-if="isNameError">
-              <p v-for="(message, i) in state.errors['name']" :key="i" class="form-error-message">
-                {{ message }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-header w-2/12">ログインID</div>
-          <div class="form-col w-6/12">
-            <ExInput v-model="state.form.loginId" :class="{ 'w-full': 1, 'form-error': isLoginIdError }" />
-            <div v-if="isLoginIdError">
-              <p v-for="(message, i) in state.errors['loginId']" :key="i" class="form-error-message">
-                {{ message }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-col mx-auto">
-            <ExButton :title="'登録'" class="mr-3" :disabled="isFormError" @onclick="onRegisterClicked" />
-            <ExButton :title="'キャンセル'" @onclick="onCancelClicked" />
-          </div>
+  <ExPageHeader :title="'ユーザー登録'" />
+  <ExAlert :message="'ユーザーを登録しました'" :visible="state.showTips" />
+  <div class="form">
+    <div class="form-row">
+      <div class="form-header w-2/12">ユーザー名</div>
+      <div class="form-col w-6/12">
+        <ExInput v-model="state.form.name" :class="{ 'w-full': 1, 'form-error': isNameError }" />
+        <div v-if="isNameError">
+          <p v-for="(message, i) in state.errors['name']" :key="i" class="form-error-message">
+            {{ message }}
+          </p>
         </div>
       </div>
-      <teleport to="#loading-modal">
-        <ExLoadingModal v-if="isPending" />
-      </teleport>
-    </template>
-  </DefaultLayout>
+    </div>
+    <div class="form-row">
+      <div class="form-header w-2/12">ログインID</div>
+      <div class="form-col w-6/12">
+        <ExInput v-model="state.form.loginId" :class="{ 'w-full': 1, 'form-error': isLoginIdError }" />
+        <div v-if="isLoginIdError">
+          <p v-for="(message, i) in state.errors['loginId']" :key="i" class="form-error-message">
+            {{ message }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-col mx-auto">
+        <ExButton :title="'登録'" class="mr-3" :disabled="isFormError" @onclick="onRegisterClicked" />
+        <ExButton :title="'キャンセル'" @onclick="onCancelClicked" />
+      </div>
+    </div>
+  </div>
+  <teleport to="#loading-modal">
+    <ExLoadingModal v-if="isPending" />
+  </teleport>
 </template>
 
 <script lang="ts">

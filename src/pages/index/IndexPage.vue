@@ -1,13 +1,9 @@
 <template>
-  <DefaultLayout>
-    <template #default>
-      <div class="flex flex-col">
-        <ExPageHeader :title="'ユーザー管理'" class="mb-3" />
-        <UserSearchForm class="mb-3" />
-        <UserList />
-      </div>
-    </template>
-  </DefaultLayout>
+  <div class="flex flex-col">
+    <ExPageHeader :title="'ユーザー管理'" class="mb-3" />
+    <UserSearchForm class="mb-3" />
+    <UserList />
+  </div>
 </template>
 
 <script lang="ts">

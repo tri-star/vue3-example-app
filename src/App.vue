@@ -1,19 +1,21 @@
 <template>
-  <router-view v-slot="{ Component }">
-    <transition name="page">
+  <component :is="layout">
+    <router-view v-slot="{ Component }">
       <component :is="Component" />
-    </transition>
-  </router-view>
-  <div id="loading-modal"></div>
+    </router-view>
+    <div id="loading-modal"></div>
+  </component>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, inject, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { AuthHandlerInterface, AuthHandlerInterfaceKey } from './domain/AuthHandlerInterface'
 
 export default defineComponent({
   setup() {
+    const route = useRoute()
+    let layout = ref<string>('DefaultLayout')
     const router = useRouter()
     const authHandler = inject<AuthHandlerInterface>(AuthHandlerInterfaceKey)!
 
@@ -35,7 +37,13 @@ export default defineComponent({
       })
     })
 
-    return {}
+    router.afterEach(() => {
+      layout.value = route.meta.layout ?? 'DefaultLayout'
+    })
+
+    return {
+      layout,
+    }
   },
 })
 </script>

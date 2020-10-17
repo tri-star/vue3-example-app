@@ -1,30 +1,26 @@
 <template>
-  <LoginLayout>
-    <template #default>
-      <div class="w-6/12 mx-auto my-20">
-        <h1 class="text-6xl w-full text-center mb-10">Example App</h1>
-        <div class="form">
-          <div class="form-row">
-            <div class="form-header w-3/12">ログインID</div>
-            <div class="form-col w-9/12">
-              <ExInput v-model="state.form.loginId" class="w-full" />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-header w-3/12">パスワード</div>
-            <div class="form-col w-9/12">
-              <ExInput v-model="state.form.password" :type="'password'" class="w-full" />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-col mx-auto">
-              <ExButton :title="'ログイン'" class="mr-3" :disabled="validator.isError()" @onclick="onLoginClicked" />
-            </div>
-          </div>
+  <div class="w-6/12 mx-auto my-20">
+    <h1 class="text-6xl w-full text-center mb-10">Example App</h1>
+    <div class="form">
+      <div class="form-row">
+        <div class="form-header w-3/12">ログインID</div>
+        <div class="form-col w-9/12">
+          <ExInput v-model="state.form.loginId" class="w-full" />
         </div>
       </div>
-    </template>
-  </LoginLayout>
+      <div class="form-row">
+        <div class="form-header w-3/12">パスワード</div>
+        <div class="form-col w-9/12">
+          <ExInput v-model="state.form.password" :type="'password'" class="w-full" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-col mx-auto">
+          <ExButton :title="'ログイン'" class="mr-3" :disabled="validator.isError()" @onclick="onLoginClicked" />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

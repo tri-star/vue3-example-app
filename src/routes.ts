@@ -18,6 +18,7 @@ export const route = createRouter({
       name: 'login',
       component: LoginPage,
       meta: {
+        layout: 'LoginLayout',
         allowGuest: true,
       },
     },
