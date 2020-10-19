@@ -32,7 +32,7 @@
           <td class="text-center"><input v-model="bulkCheckState.checkedItems" type="checkbox" :value="u.id" /></td>
           <td class="text-right">{{ u.id }}</td>
           <td>
-            <RouterLink :to="{ name: 'user-edit', params: { id: u.id } }">{{ u.name }}</RouterLink>
+            <RouterLink class="link" :to="{ name: 'user-edit', params: { id: u.id } }">{{ u.name }}</RouterLink>
           </td>
           <td>{{ u.loginId }}</td>
           <td></td>

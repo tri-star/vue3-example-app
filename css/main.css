@@ -27,3 +27,12 @@
 .form-error-message {
   @apply text-red-700;
 }
+
+.link {
+  @apply text-blue-800 underline;
+  transition: color .3s ease;
+}
+
+.link:hover {
+  @apply text-blue-600 underline;
+}
