@@ -56,3 +56,9 @@ export class UserRegisterRuleCollection extends RuleCollection {
     }
   }
 }
+
+export class UserEditRuleCollection extends UserRegisterRuleCollection {
+  public constructor() {
+    super()
+  }
+}

@@ -26,6 +26,22 @@ export class UserRepository {
     return user
   }
 
+  public async fetchUserById(id: number): Promise<User | null> {
+    const users: Array<User> = this.loadUsers()
+    const user = users.reduce((accumlator: User | null, u: User) => {
+      return u.id === id ? u : accumlator
+    }, null)
+
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve()
+      }, 200)
+    )
+
+    //見つからない場合はResourceNotFoundErrorを投げる
+    return user
+  }
+
   public async fetchUserList(
     page: number,
     pageSize: number,
@@ -128,6 +144,37 @@ export class UserRepository {
       name: userData.name,
       loginId: userData.loginId,
     })
+    localStorage.setItem('users', JSON.stringify(users))
+  }
+
+  public async edit(id: number, userData: Record<string, any>): Promise<void> {
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve()
+      }, 200)
+    )
+    let users: Array<Record<string, any>> = []
+    const usersJson: string | null = localStorage.getItem('users')
+    if (usersJson) {
+      users = JSON.parse(usersJson)
+    }
+    const isExist = users.some((u) => {
+      return (u.id ?? 0) === id
+    })
+    if (!isExist) {
+      throw new Error(`無効なユーザーIDです: ${id}`)
+    }
+
+    users = users.map((u) => {
+      if ((u.id ?? 0) !== id) {
+        return u
+      }
+      return {
+        ...userData,
+        id: id,
+      }
+    })
+
     localStorage.setItem('users', JSON.stringify(users))
   }
 }

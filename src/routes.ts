@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import IndexPage from './pages/user/IndexPage.vue'
 import LoginPage from './pages/login/LoginPage.vue'
 import UserFormPage from './pages/user/UserFormPage.vue'
+import UserEditFormPage from './pages/user/UserEditFormPage.vue'
 
 const routerHistory = createWebHistory()
 
@@ -31,6 +32,11 @@ export const route = createRouter({
       path: '/user/register',
       name: 'user-register',
       component: UserFormPage,
+    },
+    {
+      path: '/user/:id/edit',
+      name: 'user-edit',
+      component: UserEditFormPage,
     },
   ],
 })
