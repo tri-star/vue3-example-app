@@ -1,5 +1,5 @@
 import { constraints } from '@/lib/validator/constraints'
-import { RuleCollection } from '@/lib/validator/Rule'
+import { RuleCollection, RuleResult } from '@/lib/validator/Rule'
 import { Validator } from '@/lib/validator/Validator'
 
 describe('Validator', () => {
@@ -136,6 +136,46 @@ describe('Validator', () => {
       data['name'] = ''
       result = await validatorWithInitData.validate(data, ruleCollection)
       expect(result.isError()).toBe(true)
+    })
+  })
+
+  describe('バリデーション時にコンテキスト情報(パラメータ)を使用するバリデーションの場合', () => {
+    beforeEach(() => {
+      validator = new Validator()
+    })
+    it('各バリデーションの中でコンテキスト情報を参照できること', async () => {
+      ruleCollection.addRule('useContext', {
+        rule: (
+          value: any,
+          parameters: Record<string, any>,
+          input: Record<string, any>,
+          context: Record<string, any>
+        ): RuleResult => {
+          const isOk = value == context['answer']
+          console.log(context)
+          if (isOk) {
+            return {
+              ok: true,
+            }
+          }
+          return {
+            ok: false,
+            message: 'NG',
+          }
+        },
+      })
+      const context = {
+        answer: 100,
+      }
+      const result = await validator.validate(
+        {
+          useContext: 100,
+        },
+        ruleCollection,
+        false,
+        context
+      )
+      expect(result.hasError('useContext')).toBe(false)
     })
   })
 })

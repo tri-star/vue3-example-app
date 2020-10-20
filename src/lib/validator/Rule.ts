@@ -4,11 +4,13 @@ export type RuleResult = {
 }
 
 export type constraintFunction = {
-  (value: any, parameters: Record<string, any>, input: Record<string, any>): RuleResult
+  (value: any, parameters: Record<string, any>, input: Record<string, any>, context: Record<string, any>): RuleResult
 }
 
 export type asyncConstraintFunction = {
-  (value: any, parameters: Record<string, any>, input: Record<string, any>): Promise<RuleResult>
+  (value: any, parameters: Record<string, any>, input: Record<string, any>, context: Record<string, any>): Promise<
+    RuleResult
+  >
 }
 
 export type ConstraintObject = {

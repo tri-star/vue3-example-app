@@ -76,7 +76,8 @@ export class Validator {
   public async validate(
     input: Record<string, any>,
     collection: RuleCollectionInterface,
-    force: boolean = false
+    force: boolean = false,
+    context?: Record<string, any>
   ): Promise<ValidationResult> {
     const result = new ValidationResult()
 
@@ -101,14 +102,14 @@ export class Validator {
       for (const ruleName in rules[field]) {
         rule = rules[field][ruleName]
         if (isConstraintFunction(rule)) {
-          r = rule(value, parameters, input)
+          r = rule(value, parameters, input, context ?? {})
           target = field
         } else if (isConstraintObject(rule) && rule.rule) {
-          r = rule.rule(value, parameters, input)
+          r = rule.rule(value, parameters, input, context ?? {})
           target = rule.target ?? field
           parameters = rule.parameters ?? {}
         } else if (isConstraintObject(rule) && rule.asyncRule) {
-          r = await rule.asyncRule(value, parameters, input)
+          r = await rule.asyncRule(value, parameters, input, context ?? {})
           target = rule.target ?? field
           parameters = rule.parameters ?? {}
         } else {

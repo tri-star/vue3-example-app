@@ -30,9 +30,10 @@ export const useValidator = () => {
   const validate = async (
     input: Record<string, any>,
     ruleCollection: RuleCollectionInterface,
-    force: boolean = false
+    force: boolean = false,
+    context?: Record<string, any>
   ) => {
-    result = await validator.validate(input, ruleCollection, force)
+    result = await validator.validate(input, ruleCollection, force, context)
     updateErrors(result.getAll())
   }
 
