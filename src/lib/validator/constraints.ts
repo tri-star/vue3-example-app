@@ -17,7 +17,7 @@ const isString = (value: any): boolean => {
 
 export const constraints: constraints = {
   required: (): constraintFunction => {
-    return (value: any, parameters: Record<string, any>, context: Record<string, any>): RuleResult => {
+    return (value: any, parameters: Record<string, any>, input: Record<string, any>): RuleResult => {
       const okResponse = {
         ok: true,
       }
@@ -36,7 +36,7 @@ export const constraints: constraints = {
     }
   },
   length: (min: number, max: number): constraintFunction => {
-    return (value: any, parameters: Record<string, any>, context: Record<string, any>): RuleResult => {
+    return (value: any, parameters: Record<string, any>, input: Record<string, any>): RuleResult => {
       const okResponse = {
         ok: true,
       }
@@ -57,7 +57,7 @@ export const constraints: constraints = {
   },
 
   maxLength: (max: number): constraintFunction => {
-    return (value: any, parameters: Record<string, any>, context: Record<string, any>): RuleResult => {
+    return (value: any, parameters: Record<string, any>, input: Record<string, any>): RuleResult => {
       const okResponse = {
         ok: true,
       }
