@@ -1,5 +1,5 @@
 import { constraints } from '@/lib/validator/constraints'
-import { RuleCollection, RuleCollectionInterface, RuleResult, RuleSet } from '@/lib/validator/Rule'
+import { asyncConstraintFunction, RuleCollection, RuleResult } from '@/lib/validator/Rule'
 import { UserRepository } from '@/repositories/UserRepository'
 
 export type UserParam = {
@@ -57,30 +57,38 @@ export class UserRegisterRuleCollection extends RuleCollection {
         required: constraints.required(),
         length: constraints.maxLength(15),
         uniqueLoginId: {
-          asyncRule: this.uniqueLoginId,
+          asyncRule: this.uniqueLoginId(),
         },
       },
     }
   }
 
-  private async uniqueLoginId(
-    value: any,
-    parameters: Record<string, any>,
-    context: Record<string, any>
-  ): Promise<RuleResult> {
-    const okResponse = {
-      ok: true,
+  protected uniqueLoginId(): asyncConstraintFunction {
+    return async (value: any, parameters: Record<string, any>, context: Record<string, any>): Promise<RuleResult> => {
+      const okResponse = {
+        ok: true,
+      }
+      const errorResponse = {
+        ok: false,
+        message: '既に使用されているログインIDです。',
+      }
+
+      const isExist = await this.userRepository.isLoginIdExist(value)
+      if (isExist) {
+        return errorResponse
+      }
+
+      return okResponse
     }
-    const errorResponse = {
-      ok: false,
-      message: '既に使用されているログインIDです。',
-    }
-    return okResponse
   }
 }
 
 export class UserEditRuleCollection extends UserRegisterRuleCollection {
   public constructor(userRepository: UserRepository) {
     super(userRepository)
+
+    this.collection['loginId']['uniqueLoginId'] = {
+      asyncRule: this.uniqueLoginId(),
+    }
   }
 }
