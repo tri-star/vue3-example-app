@@ -64,7 +64,13 @@ export class UserRegisterRuleCollection extends RuleCollection {
   }
 
   protected uniqueLoginId(): asyncConstraintFunction {
-    return async (value: any, parameters: Record<string, any>, context: Record<string, any>): Promise<RuleResult> => {
+    return async (
+      value: any,
+      parameters: Record<string, any>,
+      input: Record<string, any>,
+      context: Record<string, any>
+    ): Promise<RuleResult> => {
+      const excludeId: number | undefined = context['selfId']
       const okResponse = {
         ok: true,
       }
@@ -73,7 +79,7 @@ export class UserRegisterRuleCollection extends RuleCollection {
         message: '既に使用されているログインIDです。',
       }
 
-      const isExist = await this.userRepository.isLoginIdExist(value)
+      const isExist = await this.userRepository.isLoginIdExist(value, excludeId)
       if (isExist) {
         return errorResponse
       }
@@ -86,9 +92,5 @@ export class UserRegisterRuleCollection extends RuleCollection {
 export class UserEditRuleCollection extends UserRegisterRuleCollection {
   public constructor(userRepository: UserRepository) {
     super(userRepository)
-
-    this.collection['loginId']['uniqueLoginId'] = {
-      asyncRule: this.uniqueLoginId(),
-    }
   }
 }

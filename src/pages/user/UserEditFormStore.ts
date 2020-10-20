@@ -53,7 +53,10 @@ export class UserEditFormStore {
   }
 
   public async validate(force: boolean = false): Promise<boolean> {
-    await this.validator.validate(this.state.form, this.ruleCollection, force)
+    const validationContext = {
+      selfId: this.state.id,
+    }
+    await this.validator.validate(this.state.form, this.ruleCollection, force, validationContext)
     this.state.errors = this.validator.getErrors()
     return !this.validator.isError()
   }
