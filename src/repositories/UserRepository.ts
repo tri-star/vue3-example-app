@@ -42,6 +42,24 @@ export class UserRepository {
     return user
   }
 
+  public async isLoginIdExist(loginId: string, excludeId?: number): Promise<boolean> {
+    const users: Array<User> = this.loadUsers()
+    const user = users.reduce((accumlator: User | null, u: User) => {
+      return u.loginId === loginId ? u : accumlator
+    }, null)
+
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve()
+      }, 200)
+    )
+
+    if (excludeId && user && user.id === excludeId) {
+      return false
+    }
+    return user ? true : false
+  }
+
   public async fetchUserList(
     page: number,
     pageSize: number,

@@ -1,4 +1,10 @@
-import { constraintFunction, ConstraintObject, RuleCollectionInterface, RuleResult } from './Rule'
+import {
+  asyncConstraintFunction,
+  constraintFunction,
+  ConstraintObject,
+  RuleCollectionInterface,
+  RuleResult,
+} from './Rule'
 import _get from 'lodash.get'
 import _cloneDeep from 'lodash.clonedeep'
 
@@ -6,7 +12,7 @@ function isConstraintFunction(arg: any): arg is constraintFunction {
   return typeof arg === 'function'
 }
 function isConstraintObject(arg: any): arg is ConstraintObject {
-  return arg.rule !== undefined
+  return arg.rule !== undefined || arg.asyncRule !== undefined
 }
 
 export class ValidationResult {
@@ -67,11 +73,11 @@ export class Validator {
     this.dirtyFlags = {}
   }
 
-  public validate(
+  public async validate(
     input: Record<string, any>,
     collection: RuleCollectionInterface,
     force: boolean = false
-  ): ValidationResult {
+  ): Promise<ValidationResult> {
     const result = new ValidationResult()
 
     const rules = collection.getRules()
@@ -79,7 +85,6 @@ export class Validator {
     let initialValue: any
     let value: any
     let rule: any
-    let constraint: constraintFunction
     let target: string
     let parameters: Record<string, any> = {}
 
@@ -96,16 +101,19 @@ export class Validator {
       for (const ruleName in rules[field]) {
         rule = rules[field][ruleName]
         if (isConstraintFunction(rule)) {
-          constraint = rule
+          r = rule(value, parameters, input)
           target = field
-        } else if (isConstraintObject(rule)) {
-          constraint = rule.rule
+        } else if (isConstraintObject(rule) && rule.rule) {
+          r = rule.rule(value, parameters, input)
+          target = rule.target ?? field
+          parameters = rule.parameters ?? {}
+        } else if (isConstraintObject(rule) && rule.asyncRule) {
+          r = await rule.asyncRule(value, parameters, input)
           target = rule.target ?? field
           parameters = rule.parameters ?? {}
         } else {
           throw new Error(`無効なルールが指定されました: ${ruleName}`)
         }
-        r = constraint(value, parameters, input)
         if (!r.ok && r.message) {
           result.add(target, [r.message])
         }

@@ -40,7 +40,7 @@ export class UserEditFormStore {
     this.userEditHandler = useApi<void>(async () => {
       return await this.userRepository.edit(this.state.id, this.state.form)
     })
-    this.ruleCollection = new UserEditRuleCollection()
+    this.ruleCollection = new UserEditRuleCollection(this.userRepository)
   }
 
   public initialize = async (id: number) => {
@@ -53,7 +53,7 @@ export class UserEditFormStore {
   }
 
   public async validate(force: boolean = false): Promise<boolean> {
-    this.validator.validate(this.state.form, this.ruleCollection, force)
+    await this.validator.validate(this.state.form, this.ruleCollection, force)
     this.state.errors = this.validator.getErrors()
     return !this.validator.isError()
   }

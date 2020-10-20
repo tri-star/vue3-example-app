@@ -38,7 +38,7 @@ export class UserFormStore {
     this.userRegisterHandler = useApi<void>(async () => {
       return await this.userRepository.register(this.state.form)
     })
-    this.ruleCollection = new UserRegisterRuleCollection()
+    this.ruleCollection = new UserRegisterRuleCollection(this.userRepository)
   }
 
   public initialize = () => {
@@ -46,7 +46,7 @@ export class UserFormStore {
   }
 
   public async validate(force: boolean = false): Promise<boolean> {
-    this.validator.validate(this.state.form, this.ruleCollection, force)
+    await this.validator.validate(this.state.form, this.ruleCollection, force)
     this.state.errors = this.validator.getErrors()
     return !this.validator.isError()
   }

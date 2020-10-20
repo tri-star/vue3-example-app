@@ -57,7 +57,7 @@ export default defineComponent({
     const onCancelClicked = () => {
       router.back()
     }
-    const onRegisterClicked = () => {
+    const onRegisterClicked = async () => {
       userFormStore.register()
     }
 

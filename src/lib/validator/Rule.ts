@@ -7,9 +7,14 @@ export type constraintFunction = {
   (value: any, parameters: Record<string, any>, context: Record<string, any>): RuleResult
 }
 
+export type asyncConstraintFunction = {
+  (value: any, parameters: Record<string, any>, context: Record<string, any>): Promise<RuleResult>
+}
+
 export type ConstraintObject = {
   name?: string
-  rule: constraintFunction
+  rule?: constraintFunction
+  asyncRule?: asyncConstraintFunction
   target?: string
   message?: string
   parameters?: Record<string, any>

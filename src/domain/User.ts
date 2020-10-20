@@ -1,5 +1,6 @@
 import { constraints } from '@/lib/validator/constraints'
-import { RuleCollection, RuleCollectionInterface, RuleSet } from '@/lib/validator/Rule'
+import { RuleCollection, RuleCollectionInterface, RuleResult, RuleSet } from '@/lib/validator/Rule'
+import { UserRepository } from '@/repositories/UserRepository'
 
 export type UserParam = {
   id: number
@@ -42,8 +43,11 @@ export class UserRegisterRequest {
 }
 
 export class UserRegisterRuleCollection extends RuleCollection {
-  public constructor() {
+  protected userRepository: UserRepository
+
+  public constructor(userRepository: UserRepository) {
     super()
+    this.userRepository = userRepository
     this.collection = {
       name: {
         required: constraints.required(),
@@ -52,13 +56,31 @@ export class UserRegisterRuleCollection extends RuleCollection {
       loginId: {
         required: constraints.required(),
         length: constraints.maxLength(15),
+        uniqueLoginId: {
+          asyncRule: this.uniqueLoginId,
+        },
       },
     }
+  }
+
+  private async uniqueLoginId(
+    value: any,
+    parameters: Record<string, any>,
+    context: Record<string, any>
+  ): Promise<RuleResult> {
+    const okResponse = {
+      ok: true,
+    }
+    const errorResponse = {
+      ok: false,
+      message: '既に使用されているログインIDです。',
+    }
+    return okResponse
   }
 }
 
 export class UserEditRuleCollection extends UserRegisterRuleCollection {
-  public constructor() {
-    super()
+  public constructor(userRepository: UserRepository) {
+    super(userRepository)
   }
 }
