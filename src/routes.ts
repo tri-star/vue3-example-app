@@ -3,6 +3,7 @@ import IndexPage from './pages/user/IndexPage.vue'
 import LoginPage from './pages/login/LoginPage.vue'
 import UserFormPage from './pages/user/UserFormPage.vue'
 import UserEditFormPage from './pages/user/UserEditFormPage.vue'
+import NotFoundPage from './pages/NotFoundPage.vue'
 
 const routerHistory = createWebHistory()
 
@@ -37,6 +38,11 @@ export const route = createRouter({
       path: '/user/:id/edit',
       name: 'user-edit',
       component: UserEditFormPage,
+    },
+    {
+      path: '/error/not-found',
+      name: 'notfound',
+      component: NotFoundPage,
     },
   ],
 })

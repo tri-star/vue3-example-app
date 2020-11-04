@@ -1,5 +1,6 @@
 import { User, UserList } from '@/domain/User'
 import { userFactory } from '@/factories/userFactory'
+import { ResourceNotFoundError } from '@/lib/errors/ResourceNotFoundError'
 import { InjectionKey } from 'vue'
 import { stringifyQuery } from 'vue-router'
 
@@ -38,7 +39,9 @@ export class UserRepository {
       }, 200)
     )
 
-    //見つからない場合はResourceNotFoundErrorを投げる
+    if (!user) {
+      throw new ResourceNotFoundError('Not Found')
+    }
     return user
   }
 

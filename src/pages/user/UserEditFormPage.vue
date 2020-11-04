@@ -56,7 +56,10 @@ export default defineComponent({
     const id: number = Number(route.params.id ?? 0)
     //TODO: 見つからない場合ResourceNotFoundErrorを投げる
 
-    userFormStore.initialize(id)
+    userFormStore.initialize(id).catch((reason) => {
+      console.error(reason)
+      router.replace({ name: 'notfound', params: { message: '無効なユーザーが指定されました' } })
+    })
 
     const onCancelClicked = () => {
       router.back()
