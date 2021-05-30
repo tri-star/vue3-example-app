@@ -11,12 +11,21 @@
       <div class="form-row">
         <div class="form-header w-3/12">パスワード</div>
         <div class="form-col w-9/12">
-          <ExInput v-model="state.form.password" :type="'password'" class="w-full" />
+          <ExInput
+            v-model="state.form.password"
+            :type="'password'"
+            class="w-full"
+          />
         </div>
       </div>
       <div class="form-row">
         <div class="form-col mx-auto">
-          <ExButton :title="'ログイン'" class="mr-3" :disabled="validator.isError()" @onclick="onLoginClicked" />
+          <ExButton
+            :title="'ログイン'"
+            class="mr-3"
+            :disabled="state.isError"
+            @onclick="onLoginClicked"
+          />
         </div>
       </div>
     </div>
@@ -29,7 +38,10 @@ import { constraints } from '@/lib/validator/constraints'
 import { RuleCollection } from '@/lib/validator/Rule'
 import { defineComponent, inject, reactive, watch } from 'vue'
 import ExInput from '@/components/ExInput.vue'
-import { AuthHandlerInterface, AuthHandlerInterfaceKey } from '@/domain/AuthHandlerInterface'
+import {
+  AuthHandlerInterface,
+  AuthHandlerInterfaceKey,
+} from '@/domain/AuthHandlerInterface'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
@@ -42,6 +54,7 @@ export default defineComponent({
         loginId: '',
         password: '',
       },
+      isError: false,
     })
 
     const authHandler = inject<AuthHandlerInterface>(AuthHandlerInterfaceKey)!
@@ -57,12 +70,16 @@ export default defineComponent({
     })
     validator.setInitialData(state.form)
 
-    watch(state.form, () => {
-      validator.validate(state.form, rules)
+    watch(state.form, async () => {
+      await validator.validate(state.form, rules)
+      state.isError = validator.isError()
     })
 
     const onLoginClicked = async () => {
-      const logined = await authHandler.login(state.form.loginId, state.form.password)
+      const logined = await authHandler.login(
+        state.form.loginId,
+        state.form.password
+      )
       if (!logined) {
         return
       }
